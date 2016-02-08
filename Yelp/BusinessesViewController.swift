@@ -8,19 +8,28 @@
 
 import UIKit
 
-class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, FiltersViewControllerDelegate, UIScrollViewDelegate {
+class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, FiltersViewControllerDelegate, UIScrollViewDelegate, UISearchBarDelegate {
+    
     
     @IBOutlet weak var tableView: UITableView!
     var businesses: [Business]!
-    var filteredData: [String]!
+    var filteredData: [Business]!
+    var searchBar: UISearchBar!
+
     var isMoreDataLoading = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchBar = UISearchBar()
+        searchBar.sizeToFit()
+        navigationItem.titleView = searchBar
+         searchBar.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
+   
+        
         reloadData()
         
         /* Example of Yelp search with more search options specified
@@ -34,6 +43,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         }
         */
     }
+ 
     internal func reloadData() {
         Business.searchWithTerm("Thai", completion: { (businesses: [Business]!, error: NSError!) -> Void in
             if (self.businesses == nil){
@@ -51,6 +61,38 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         })
         
     }
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        if(filteredData == nil) {
+            filteredData = businesses
+        }
+        
+        if searchText.isEmpty {
+            businesses = filteredData
+        } else {
+                    businesses = businesses.filter({(dataItem: Business) -> Bool in
+                
+               
+                if dataItem.name!.rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil {
+                    return true
+                } else {
+                    return false
+                }
+            })
+        }
+        
+        tableView.reloadData()
+        
+    }
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        self.searchBar.showsCancelButton = true
+    }
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+    }
+
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if (!isMoreDataLoading) {
         let scrollViewContentHeight = tableView.contentSize.height
