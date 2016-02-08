@@ -117,12 +117,16 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="tp4-Xn-3pp" firstAttribute="leading" secondItem="XhR-oz-92f" secondAttribute="leading" id="9AP-9l-6QA"/>
                             <constraint firstItem="VBY-gq-v8E" firstAttribute="top" secondItem="tp4-Xn-3pp" secondAttribute="bottom" id="TXn-tj-VEu"/>
                             <constraint firstItem="tp4-Xn-3pp" firstAttribute="top" secondItem="XhR-oz-92f" secondAttribute="top" id="gOs-DU-oWN"/>
                             <constraint firstAttribute="trailing" secondItem="tp4-Xn-3pp" secondAttribute="trailing" id="jx4-Qe-sMS"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="rhe-wp-v3K" appends="YES" id="M7z-nj-iOn"/>
+                        </connections>
                     </view>
                     <toolbarItems>
                         <barButtonItem title="Filter" id="LZB-VL-4xt"/>
@@ -140,6 +144,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fgb-4b-F1b" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="rhe-wp-v3K">
+                    <connections>
+                        <action selector="endEditing:" destination="2xI-yr-O5N" id="GSP-hB-J5X"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1485" y="338"/>
         </scene>

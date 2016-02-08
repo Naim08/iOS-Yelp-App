@@ -136,4 +136,9 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             self.tableView.reloadData()
         }
     }
+    
+    @IBAction func endEditing(sender: AnyObject) {
+        view.endEditing(true)
+        searchBar.resignFirstResponder()
+    }
 }
